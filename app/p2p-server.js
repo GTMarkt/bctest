@@ -95,7 +95,3 @@ class P2pServer {
 }
 
 module.exports = P2pServer;
-
-// We run in cmd: 
-// set HTTP_PORT=3003 && set P2P_PORT=5003 && set PEERS=ws://localhost:5001, ws://localhost:5002 && npm run dev
-// or, set HTTP_PORT=3002 && set P2P_PORT=5002 && set PEERS=ws://localhost:5001 && npm run dev
