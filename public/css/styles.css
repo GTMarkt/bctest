@@ -1,0 +1,52 @@
+input{
+    padding-left: 8px;
+    margin-left: 4%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 5px;
+    text-align: left;
+    width: 50%;
+    height: 30px;
+    font-size: 26px;
+    margin: 2px;
+}
+fieldset{
+    background-color: rgb(126, 126, 126);
+    font-size: 2em;
+    border: 2px solid rgb(12, 46, 41);
+    word-wrap: break-word;
+}
+label{
+    padding: 18px 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+}
+legend {
+    background-color: white;
+    border: 2px solid black;
+}
+#confirmButton{
+    text-align: left;
+    border-radius: 5px;
+    font-size: 26px;
+    height: 40px;
+    width: 20%
+}
+#chainRes{
+    margin: 18px 40px 18px 4px;
+}
+.ledger{
+    text-align: left;
+    width: 90%;
+}
+.ledger div {
+    text-align: left;
+    margin: 2px;
+    padding: 2px 2px;
+    width: 90%;
+    word-wrap: break-all;
+}
+pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-weight: bold;
+}

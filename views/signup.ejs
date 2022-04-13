@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <form action="/signup" method="POST">
+        <span>Email</span> <input type="email" name="email" id="email_field" placeholder="Insert valid email" maxlength="200" required="required">
+        <br>
+        <span>Username</span> <input type="text" name="username" id="username_field" maxlength="50" placeholder="Choose your username, max 50 chars" required="required">
+        <br>
+        <span>Password</span> <input type="password" name="password" id="pass_field" placeholder="Insert password" required="required">
+        <br>
+        <span>Witness</span> <input type="checkbox" name="witness" id="wn_field" default="unchecked">
+        <br><hr><br>
+        <input type="submit" value="Submit" id="login_btn">
+    </form>
+</body>
+</html>

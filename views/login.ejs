@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css" type="text/css">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login Page to Transfer Market</h1>
+    <br>
+    <form action="/" method="POST">
+        <span>Username</span> <input type="text" name="username" id="username_field" maxlength="50" placeholder="Insert your username" required="required" autofocus>
+        <br>
+        <span>Password</span> <input type="password" name="password" id="pass_field" placeholder="Insert password" required="required">
+        <br><hr><br>
+        <input type="submit" value="Submit" id="login_btn">
+    </form>
+    <button onclick="window.location.href = '/signup';" id="register">REGISTER</button>
+</body>
+</html>

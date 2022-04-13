@@ -17,7 +17,7 @@ class Block {
             Last Hash  : ${this.lastHash.substring(0, 10)}
             Hash       : ${this.hash.substring(0,10)}
             Nonce      : ${this.nonce}
-            DIfficulty : ${this.difficulty}
+            Difficulty : ${this.difficulty}
             Data       : ${this.data}`;
     }
 
