@@ -22,8 +22,8 @@ app.set('view engine', 'ejs')
 app.use(express.static(`public`))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // To send as formdata, wwwx, etc.
-
-mongoose.connect("mongodb+srv://Blockchain:blockchain@cls13.trhsd.mongodb.net/Blockledger?retryWrites=true&w=majority", 
+var aaaaa = "mongodb+srv://Blockchain:blockchain@cls13.trhsd.mongodb.net/Blockledger?retryWrites=true&w=majority"
+mongoose.connect(aaaaa, 
     {useNewUrlParser: true, useUnifiedTopology: true}, () => 
     console.log(`Connected to DB!`)
 )
