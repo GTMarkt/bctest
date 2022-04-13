@@ -3,3 +3,8 @@ another_app.js
 another_app2.js
 dev-test.js
 .env
+blockchain/block.test.js
+blockchain/index.test.js
+wallet/index.test.js
+wallet/transaction-pool.test.js
+wallet/transaction.test.js

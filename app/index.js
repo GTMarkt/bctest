@@ -1,3 +1,4 @@
+// heroku= fewifi3798@aikusy.com:fewifi3798@aikusy.com
 const express = require(`express`);
 const bodyParser = require(`body-parser`);
 const Blockchain = require(`../blockchain`);
@@ -9,7 +10,8 @@ const mongoose = require(`mongoose`)
 const Schema = require(`../models/post`);
 
 require(`dotenv/config`)
-const HTTP_PORT = process.env.HTTP_PORT || 3001;
+// const HTTP_PORT = process.env.HTTP_PORT || 3001;
+const HTTP_PORT = process.env.PORT || 3001;
 
 const app = express();
 const bc = new Blockchain();
