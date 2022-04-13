@@ -23,7 +23,7 @@ app.use(express.static(`public`))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // To send as formdata, wwwx, etc.
 
-mongoose.connect(process.env.DB_Conn, 
+mongoose.connect("mongodb+srv://Blockchain:blockchain@cls13.trhsd.mongodb.net/Blockledger?retryWrites=true&w=majority", 
     {useNewUrlParser: true, useUnifiedTopology: true}, () => 
     console.log(`Connected to DB!`)
 )
