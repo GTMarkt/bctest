@@ -1,18 +1,18 @@
 const express = require(`express`);
 const bodyParser = require(`body-parser`);
 const mongoose = require(`mongoose`)
-const session = require('express-session')
+// const session = require('express-session')
 const LocalStorage = require('node-localstorage').LocalStorage;
 const Schema = require(`../models/post`);
 const ChainUtil = require('../chain-util');
 const router = express.Router();
 const app = express();
 
-app.use(session({
-    resave: false,
-    saveUninitialized: false,
-    secret: 'anyone'
-}))
+// app.use(session({
+//     resave: false,
+//     saveUninitialized: false,
+//     secret: 'anyone'
+// }))
 app.set('view engine', 'ejs')
 app.use(express.static(`public`))
 app.use(bodyParser.json())
