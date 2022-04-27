@@ -8,11 +8,6 @@ const ChainUtil = require('../chain-util');
 const router = express.Router();
 const app = express();
 
-// app.use(session({
-//     resave: false,
-//     saveUninitialized: false,
-//     secret: 'anyone'
-// }))
 app.set('view engine', 'ejs')
 app.use(express.static(`public`))
 app.use(bodyParser.json())

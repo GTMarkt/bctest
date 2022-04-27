@@ -8,3 +8,4 @@ blockchain/index.test.js
 wallet/index.test.js
 wallet/transaction-pool.test.js
 wallet/transaction.test.js
+scratch
