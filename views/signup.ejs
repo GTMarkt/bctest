@@ -4,19 +4,98 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Login</title>
 </head>
 <body>
+    <!-- <h3>Sign UP - Registration</h3>
     <form action="/signup" method="POST">
         <span>Email</span> <input type="email" name="email" id="email_field" placeholder="Insert valid email" maxlength="200" required="required">
         <br>
         <span>Username</span> <input type="text" name="username" id="username_field" maxlength="50" placeholder="Choose your username, max 50 chars" required="required">
         <br>
         <span>Password</span> <input type="password" name="password" id="pass_field" placeholder="Insert password" required="required">
-        <br>
-        <span>Witness</span> <input type="checkbox" name="witness" id="wn_field" default="unchecked">
         <br><hr><br>
         <input type="submit" value="Submit" id="login_btn">
-    </form>
+    </form> -->
+
+    <div class="container" style="text-align:center; display:flexbox;">
+        <form action="/signup" method="POST" class="m-auto" style="max-width:600px">
+            
+            <h3 class="my-4">Registration - Sign Up</h3>
+            <hr class="my-4" />
+            <div class="form-group mb-3 row">
+                <label for="username" class="col-md-5 col-form-label">Username</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control form-control-lg" id="username" name="username" required>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label for="email" class="col-md-5 col-form-label">Valid Email</label>
+                <div class="col-md-7">
+                    <input type="email" class="form-control form-control-lg" id="email" name="email" required autocomplete="email">
+                    <small class="form-text text-muted"> Please enter a valid email address</small>
+                </div>
+            </div>
+            <hr class="bg-transparent border-0 py-1" />
+            <div class="form-group mb-3 row">
+                <label for="password" class="col-md-5 col-form-label">Password</label>
+                <div class="col-md-7">
+                    <input type="password" class="form-control form-control-lg" id="password" name="password" required autocomplete="new-password">
+                    <small class="form-text text-muted"> Password must consists 8 chars | A symbol from !@#$%^_&* | An uppercase | A lowercase | A number</small>
+                </div>
+            </div>
+            <hr class="bg-transparent border-0 py-1" />
+            <hr class="my-4" />
+            <div class="form-group mb-3 row">
+                <label for="send-a-message10" class="col-md-5 col-form-label"></label>
+                <div class="col-md-7">
+                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Continue</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        var pwd = document.getElementById("password")
+        var subBtn = document.querySelector('#submitButton')
+
+        pwd.addEventListener("change", () => {
+            var tempStr = pwd.value
+            if (checkPassword(tempStr)) {
+                subBtn.disabled = false;
+                pwd.style.borderColor = "blue"
+            } else if (!checkPassword(tempStr) || tempStr === null || tempStr === ""){
+                document.querySelector('#submitButton').disabled = true;
+                pwd.style.borderColor = "red";
+            }
+        })
+
+        pwd.addEventListener("input", () => {
+            var tempStr = pwd.value
+            if (checkPassword(tempStr) ) {
+                subBtn.disabled = false;
+                pwd.style.borderColor = "blue"
+            } else if (!checkPassword(tempStr) || tempStr === null || tempStr === ""){
+                document.querySelector('#submitButton').disabled = true;
+                pwd.style.borderColor = "red"
+            }
+        })
+
+        window.addEventListener("load", () => {
+            document.querySelector('#submitButton').disabled = true;
+        })
+        
+        function checkPassword(str){
+            // var re = /^(?=.*\d)(?=.*[!@#$%^_&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            var re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+            
+            return re.test(str);
+            // Minimum 8 characters
+            // Has symbols of !@#$%^_&*
+            // Has alphanum (capital, lowercase and numver)
+        }
+    </script>
 </body>
 </html>

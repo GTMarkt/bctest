@@ -31,30 +31,6 @@ const scheme = mongoose.Schema({
     ownedCoin: Number
 })
 
-// scheme.pre(`save`, async function(next) {
-//     var user = this;
-
-//     if (!user.isModified(`password`)) return next();
-
-//     await bcrypt.genSalt(saltFactor, function(err, salt) {
-//         if (err) return next(err);
-
-//         bcrypt.hash(user.password, salt, (err, hash) => {
-//             if (err) return next(err);
-
-//             user.password = hash;
-//             next();
-//         })
-//     })
-// })
-
-// scheme.methods.comparePassword = (candidatePassword, cb) =>{
-//     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-//         if (err) return cb(err);
-//         cb(null, isMatch)
-//     })
-// }
-
 scheme.pre('save', async function save(next) {
     if (!this.isModified('password')) return next();
     try {

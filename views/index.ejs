@@ -6,34 +6,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experimental PCoin-Blockchain</title>
     <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <h1>Transactions Block Records Here</h1>
+    <h1 style="text-align:center">--- Transactions Block Records ---</h1>
 
     <hr><br>
     
-    <div id="transactInfo">
-        <div id="ti-Title" style="font-size:25px;">
-            Number of Transactions per Week : <%= bc.chain.length %> 
-        </div>
-        <div id="transactGraph">
-
+    <div class="form-group row">
+        <label for="accUsername" class="col-4 col-form-label">Account Username</label> 
+        <div class="col-8">
+            <input id="accUsername" name="accUsername" type="text" class="form-control">
         </div>
     </div>
 
-    <br><br>
+    <div class="form-group row">
+        <label for="accCoin" class="col-4 col-form-label">Account's Current Coin</label> 
+        <div class="col-8">
+            <input id="accCoin" name="accCoin" type="number" class="form-control">
+        </div>
+    </div> 
+      
+    <div class="form-group row">
+        <label for="accPublicKey" class="col-4 col-form-label">Account Public Key</label> 
+        <div class="col-8">
+            <input id="accPublicKey" name="accPublicKey" type="text" class="form-control">
+        </div>
+    </div> 
 
-    <fieldset>
-        <legend>Transfer Info</legend>
-        <label for="Dest">Destination </label>
-        <input id="Dest" type="text" width="50%" height="40px" name="Dest" placeholder="Insert the Public wallet key addr"><br><br>
-        <label for="Amt" >Amount      </label>
-        <input id="Amt" type="number" width="20%" height="40px" name="Amt" placeholder="Insert the amount"><br><br>
-        <label for="Note">Note        </label>
-        <input id="Note" type="text" width="50%" height="40px" maxlength="30" name="Note" placeholder="Type some note or msg upto 30 letters"><br><br>
-        <input type="button" value="Send Coins!" id="confirmButton">
-        <!-- <input type="button" onClick="createTrans()" value="Send Coins!" id="confirmButton"> -->
-    </fieldset>
+    <hr>
+    <div id="transactInfo">
+        <!-- <div id="ti-Title" style="font-size:25px; text-align:center;">
+            Number of Transactions per Week : <%= bc.chain.length - 1 %> 
+        </div> -->
+        <div id="transactGraph" style="font-size:25px; text-align:center;">
+            Still Error:
+        </div>
+        <ul style="font-size:20px;">
+            <li>WebSocket implemented, but the port to connect seems to open only one time, then no response in client when server sent things</li>
+            <li>Sender still not able to transfer, because of enclosed other end, so no way to insert current user's wallet address</li>
+            <li>Index page still able to be accessed manually, not through login page</li>
+            <li>Overkill architecture system -> huge security hole and confusion</li>
+        </ul>
+    </div>
+
+    <br><hr><hr><br>
+
+    <div class="card">
+        <div class="card-header">Create a Transaction</div>
+        <div class="card-body">
+            <form>
+                <!-- Input type text -->
+                <div class="form-group row ">
+                    <label for="tfDest" class="col-sm-2 col-form-label text-right"> Destination Public Key</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="tfDest" id="tfDest" placeholder="Recipient's public key address" required>
+                        <small class="text-muted form-text">Ask your recipient to send their public-key address to you and paste it here</small>
+                    </div>
+                </div>
+                
+                <!-- Input type text -->
+                <div class="form-group row ">
+                    <label for="tfAmount" class="col-sm-2 col-form-label text-right">Amount of Coins</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" name="tfAmount" id="tfAmount" placeholder="Input your preferred amount of coin to transfer here" required>
+                        <small class="text-muted form-text">Double check the amount number, zeroes, etc.</small>
+                    </div>
+                </div>
+                
+                <!-- button -->
+                <div class="form-group row ">
+                    <label for="confirmButton" class="col-sm-2 col-form-label text-right"></label>
+                    <div class="col-sm-10">
+                    <button type="button" class="btn btn-primary btn-block btn-lg" name="confirmButton" id="confirmButton">Create Transaction</button>
+                        <small class="text-muted form-text">Double check whether the amount and the address is right</small>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <br><br><hr><br>
 
     <fieldset id="transLedger">
@@ -55,10 +109,6 @@
                         </div>
                     </div>
                 <% } else { %>
-                    <!-- WHAT TO DO:
-                    1. Set interval to make the block regularly check without reloading the page
-                    2. Set the ajax call to /transact from form input for user to transact, then call
-                       /mine-transactions to show the newest block!!!!! -->
                     <hr>
                     <div>
                         <div>
@@ -80,21 +130,110 @@
                 <% countGen++ %> 
             <% } %>
         </div>
+        <%= wallet.calculateBalance(bc)%>
+        <%= wallet.toString()%>
     </fieldset>
 
     <script>
-        let destination = document.getElementById(`Dest`).value,
-            amount = document.getElementById(`Amt`).value;
-        let transactionData = {
-            "recipient": destination,
-            "amount": amount
+        let destination = document.getElementById(`tfDest`).value,
+            amount = document.getElementById(`tfAmount`).value,
+            scBtn = document.getElementById("confirmButton"),
+            accUsername = document.getElementById(`accUsername`),
+            accCoin = document.getElementById("accCoin"),
+            accPublicKey = document.getElementById(`accPublicKey`),
+            ledger = document.getElementsByClassName("ledger"),
+            trResult, 
+            transactionData = {
+                "recipient" : destination,
+                "amount" : amount
+            }
+        
+        console.log(`Transaction data : ${JSON.stringify(transactionData)}`)
+        
+        
+        const ws = new WebSocket(`ws://localhost:5001`);
+        
+        
+        // ws.onopen = () => {
+            //     // scBtn.disabled = false
+            //     // ws.send({type: 'CHAIN'})
+            //     ws.send()
+            // }
+            
+        
+        ws.addEventListener("open", () =>{
+            console.log(`Always open!`)
+            // ws.send({type : "CHAIN"})
+        })
+        
+        ws.addEventListener("message", (receivedMessage) => {
+            console.log(`Received Message Data is : ${receivedMessage.data}`);
+        })
+
+        ws.onclose = (event) => {
+            if (event.wasClean) {
+                alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+            } else {
+                alert('[close] Connection died');
+            }
+        }
+        
+        ws.addEventListener("error", (error) => {
+            console.log("Error in WebSocket")
+        })
+
+        window.addEventListener("load", () => {
+            document.getElementById('tfDest').value = null
+            document.getElementById('tfAmount').value = null
+
+            destination = null
+            amount = null
+
+            accUsername.setAttribute("readonly", "true");
+            accCoin.setAttribute("readonly", "true");
+            accPublicKey.setAttribute("readonly", "true");
+            
+            accUsername.value = "<%= localStorage.getItem('username') %>"
+            accCoin.value = "<%= localStorage.getItem('accAmount') %>";
+            accPublicKey.value = "<%= localStorage.getItem('public-key') %>"
+            
+            // scBtn.disabled = true;
+            console.log("Invoked")
+            
+            transactionData = {
+                "recipient" : null,
+                "amount" : null
+            }
+        })
+                        
+        function createElement(text) {
+            // let tempText = JSON.stringify(text, undefined, 2)
+            let tempText = text
+            let timeStamp, addressFrom, addressTo, amountTo
+            console.log(text)
+            
+            tempText.forEach((obj) => {
+                timestamp = obj.timestamp
+                obj.data.forEach((transacts) => {
+                    addressFrom = transacts.address
+                    addressTo = transacts.outputs.address
+                    amountTo = transacts.outputs.amount
+                })
+            })
+
+            let tempJson = {
+                timeStamp: timeStamp, 
+                addressFrom: addressFrom,
+                addressTo: addressTo,
+                amountTo: amountTo}
+                
+                
+            let newEl = document.createElement("div")
+            newEl.innerHTML += `<div>${JSON.stringify(text)}</div>`
+            document.body.appendChild(newEl)
         }
 
         function appendNodes(data, time, hash) {
-            var ledger = document.getElementsByClassName("ledger")
-            // ledger.innerHTML += 
-            //     `<div>${data}</div><div>${time}</div><div>${hash}</div>`;
-
             const crDiv = document.createElement("div")
             const dataTextNode = document.createTextNode(data)
             const timeTextNode = document.createTextNode(time)
@@ -102,40 +241,58 @@
 
             crDiv.appendNodes(dataTextNode, timeTextNode, hashTextNode)
             ledger.appendChild(crDiv)
-
-            // crDiv.appendChild(dataTextNode)
-            // crDiv.appendChild(timeTextNode)
-            // crDiv.appendChild(hashTextNode)
         }
 
-        let abc = document.getElementById("confirmButton")
+        scBtn.addEventListener("click", () => {
+            // To get BLOCKS
+            // var pos = new XMLHttpRequest();
+            // pos.open("GET", "/h/mine-transactions", true)
+            // pos.send()
+            // pos.onreadystatechange = () => {
+            //     if (pos.responseText !== null || pos.responseURL !== 0) {
+            //         console.log(`1st result: ${JSON.stringify(pos.responseText)}`)
+            //     }
+            // }
+            destination = document.getElementById('tfDest').value
+            amount = document.getElementById('tfAmount').value
+            
+            if (destination.length != 0  && amount > 0) {
+                document.getElementById(`tfDest`).style.borderColor = "green"
+                document.getElementById(`tfAmount`).style.borderColor = "green"
 
-        abc.addEventListener("click", () => {
-            let aaaa = {}
-            var pos = new XMLHttpRequest();
-            pos.open("GET", "/mine-transactions", true)
-            pos.send()
-
-            // pos.open("POST", "/transact", true)
-            // pos.send(transactionData)
-            pos.onreadystatechange = () => {
-                if (pos.responseText !== null || pos.responseURL != 0) {
-                    aaaa = JSON.parse(pos.responseText)
-                    console.log(aaaa)
+                if (accPublicKey == null && accAmount == null || accPublicKey == "" && accAmount == "")
+                    scBtn.disabled = false
+                else
+                    scBtn.disabled = true
+                transactionData = {
+                    "recipient": destination,
+                    "amount": amount
                 }
+                console.log(`Button Clicked and sent! ${JSON.stringify(transactionData)}`)
+                fetch('h/transact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(transactionData),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        createElement(data)
+                        console.log('Transaction result: ', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    })
+            } else {
+                scBtn.disabled = true;
             }
-            for (var key in aaaa) {
-                appendNodes(JSON.stringify(key.data), key.timestamp, key.hash) 
-            }
-            // appendNodes(aaaa.data, aaaa.timestamp, aaaa.hash)
         })
-        
         function createTrans() {
-            var amt = parseFloat(document.getElementById(`Amt`).value)
-            var dest = document.getElementById(`Dest`).value;
-            var note = document.getElementById(`Note`).value;
+            var amt = parseFloat(amount.value)
+            var dest = destination.value;
 
-            if (dest && note && typeof amt === "number") {
+            if (dest && typeof amt === "number") {
                 let data = {
                     recipient: dest,
                     amount: amt
@@ -147,7 +304,7 @@
         function call(data) {
             var resp1 = ``, resp2=``
             let a = new XMLHttpRequest()
-            a.open("POST", `/transact`)
+            a.open("POST", `/h/transact`)
             a.setRequestHeader("Content-Type", "application/json")
             a.send(JSON.stringify(data))
             a.onreadystatechange = function() {
@@ -156,31 +313,6 @@
                     resp1 = JSON.parse(resp1)
                     console.log(resp1)
 
-                    var resp1 = [
-                        {
-                            "id": "44131750-927a-11ec-804e-ed296b2456af",
-                            "input": {
-                                "timestamp": 1645381436741,
-                                "amount": 500,
-                                "address": "04c5ab0e483108179ca0ca63d998ad30eac006512be67ac14e06b1dd6ff96b5a778ca10fe2bacd790eb5b1bda3ce1eac067d102779f7a4f4d7de9c9ba2e14c5ae1",
-                                "signature": {
-                                    "r": "8f8e66e3f6d481a6823ecbbc5a8eb3d8b60a2762db9aa1499315d5b2d4247631",
-                                    "s": "cb881bf8635cfcb5569e98685f3429435ea718ac3ffd886bb5f9f933b20293e4",
-                                    "recoveryParam": 1
-                                }
-                            },
-                            "outputs": [
-                                {
-                                    "amount": 400,
-                                    "address": "04c5ab0e483108179ca0ca63d998ad30eac006512be67ac14e06b1dd6ff96b5a778ca10fe2bacd790eb5b1bda3ce1eac067d102779f7a4f4d7de9c9ba2e14c5ae1"
-                                },
-                                {
-                                    "amount": 100,
-                                    "address": "123456789"
-                                }
-                            ]
-                        }
-                    ]
                     for(let elems of resp1) {
                         const fromAdd = elems.input.address
                         console.log(`From   : ${fromAdd}`)
@@ -194,7 +326,7 @@
                     }
                     
                     let b = new XMLHttpRequest()
-                    b.open("GET", `/mine-transactions`)
+                    b.open("GET", `/h/mine-transactions`)
                     b.send()
                     b.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
@@ -236,6 +368,7 @@
         
     // EJS script alternative : https://stackoverflow.com/a/57594261 or
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset
+    
     </script>
 
 </body>

@@ -8,11 +8,13 @@ class Wallet {
         this.keyPair = ChainUtil.genKeyPair();
         this.publicKey = this.keyPair.getPublic().encode(`hex`);
     }
-
     toString() {
-        return `Wallet - 
-        publicKey   : ${this.publicKey.toString()}
-        balance     : ${this.balance}`
+        var a = {
+            "publicKey" : this.publicKey.toString(),
+            "keyPriv": this.keyPair.getPrivate("hex"),
+            "balance": this.balance
+        }
+        return a
     }
 
     sign(dataHash) {
@@ -35,6 +37,7 @@ class Wallet {
             transaction = Transaction.newTransaction(this, recipient, amount)
             transactionPool.updateOrAddTransaction(transaction)
         }
+
         return transaction
     }
 

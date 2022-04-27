@@ -1,6 +1,6 @@
 const Websocket = require(`ws`);
 
-const P2P_PORT = process.env. P2P_PORT || 5001; // Define port
+const P2P_PORT = process.env. P2P_PORT || 5001
 
 // Each connected peers info will be inserted in array
 const peers = process.env.peers ? process.env.peers.split(`,`) : []; 
@@ -13,24 +13,19 @@ const MESSAGE_TYPES = {
 class P2pServer {
     constructor(blockchain, transactionPool) {
         this.blockchain = blockchain;
-        this.sockets = [];
+        this.sockets = []; // List of connected devices / web users
         this.transactionPool = transactionPool;
     }
 
     listen() {
-        // Set port on (listening on peer-to-peer port 5001)
         const server = new Websocket.Server({port: P2P_PORT});
 
-        // In time on `connection`, socket variable will be passed 
-        // into function connectSocket, to action if a socket peer detected
         server.on(`connection`, socket => this.connectSocket(socket));
-        
         this.connectToPeers();
         
-        console.log(`Listening for peer-to-peer connections on: ${P2P_PORT}`);
+        console.log(`Listening for P2P-WebSocket connections on: ${P2P_PORT}`);
     }
 
-    // Establish connection on each connected devices in our listening port
     connectToPeers() {
         peers.forEach(peer => {
             const socket = new Websocket(peer);
@@ -50,7 +45,8 @@ class P2pServer {
 
     messageHandler(socket) {
         socket.on(`message`, message => {
-            const data = JSON.parse(message);
+            const data = JSON.parse(message)
+            console.log(`Data : ${JSON.parse(message)} ------ ${data.type}`)
             switch(data.type) {
                 case MESSAGE_TYPES.chain:
                     this.blockchain.replaceChain(data.chain);
@@ -75,7 +71,6 @@ class P2pServer {
             chain: this.blockchain.chain
         }))
     }
-
     sendTransaction(socket, transaction) {
         socket.send(JSON.stringify({
             type: MESSAGE_TYPES.transaction,

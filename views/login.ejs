@@ -4,19 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/login.css" type="text/css">
+    <!-- <link rel="stylesheet" href="css/login.css" type="text/css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Login</title>
 </head>
 <body>
-    <h1>Login Page to Transfer Market</h1>
-    <br>
-    <form action="/" method="POST">
-        <span>Username</span> <input type="text" name="username" id="username_field" maxlength="50" placeholder="Insert your username" required="required" autofocus>
-        <br>
-        <span>Password</span> <input type="password" name="password" id="pass_field" placeholder="Insert password" required="required">
-        <br><hr><br>
-        <input type="submit" value="Submit" id="login_btn">
-    </form>
-    <button onclick="window.location.href = '/signup';" id="register">REGISTER</button>
+    <!-- <h1>Login Page to Transfer Market</h1> -->
+
+    <div class="border rounded p-4">
+        <h4 class="mb-3">Login to Transfer Market</h4>
+
+        <form action="/" method="POST">
+            <!-- Input type text -->
+            <div class="form-group row align-items-center">
+                <label for="username" class="col-sm-2 col-form-label text-right">Username</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="username" id="username" maxlength="50" placeholder="Insert username" required autofocus autocomplete="username">
+                </div>
+            </div>
+            
+            <!-- Input type password -->
+            <div class="form-group row align-items-center">
+                <label for="password" class="col-sm-2 col-form-label text-right">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Insert password" required autocomplete="current-password">
+                </div>
+            </div>
+            
+            <!-- button -->
+            <div class="form-group row align-items-center">
+                <label for="submit" class="col-sm-2 col-form-label text-right"></label>
+                <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary" name="submit" id="submit">Login to Main Page</button>
+                </div>
+            </div>
+            
+            <!-- button -->
+            <div class="form-group row align-items-center">
+                <label for="button_id_0" class="col-sm-2 col-form-label text-right"></label>
+                <div class="col-sm-10">
+                <button type="submit" class="btn btn-info" name="button_id_0" id="button_id_0" onclick="window.location.href = '/signup';">Sign Up New Account</button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
 </body>
 </html>
